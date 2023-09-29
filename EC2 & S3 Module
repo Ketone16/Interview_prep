@@ -1,1 +1,23 @@
 
+**************************************EC2*********
+module "ec2_module" {
+  source             = "./ec2"
+  ec2_instance_name  = "your_ec2_instance_name"
+  ami_id             = "your_ami_id"
+  instance_type      = "your_instance_type"
+  key_name           = "your_key_name"
+  subnet_id          = "your_subnet_id"
+
+***********************************S3************
+module "s3_bucket" {
+ source = "terraform-aws-modules/s3-bucket/aws"
+
+  bucket = "my-s3-bucket"
+  acl    = "private"
+
+  control_object_ownership = true
+  object_ownership         = "ObjectWriter"
+
+  versioning = {
+    enabled = true
+  }

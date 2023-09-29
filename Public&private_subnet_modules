@@ -1,0 +1,40 @@
+ module "private-subnets" {
+    source                = "clouddrove/terraform-aws-subnet/aws"
+    name                  = "subnets"
+    environment           = "test"
+    nat_gateway_enabled   = true
+    availability_zones    = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+    vpc_id                = module.vpc.vpc_id
+    type                  = "private"
+    cidr_block            = module.vpc.vpc_cidr_block
+    ipv6_cidr_block       = module.vpc.ipv6_cidr_block
+    public_subnet_ids     = ["subnet-xxxxxxxxxxxx", "subnet-xxxxxxxxxxxx"]
+}
+PUBLIC-PRIVATE SUBNET
+  module "subnets" {
+    source                                         = "clouddrove/terraform-aws-subnet/aws"
+    name                                           = "subnets"
+    environment                                    = "test"
+    label_order                                    = ["name", "environment"]
+    nat_gateway_enabled                            = true
+    availability_zones                             = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+    vpc_id                                         = module.vpc.vpc_id
+    type                                           = "public-private"
+    igw_id                                         = module.vpc.igw_id
+    cidr_block                                     = module.vpc.vpc_cidr_block
+    ipv6_cidr_block                                = module.vpc.ipv6_cidr_block
+    enable_ipv6                                    = true
+  }
+PUBLIC SUBNET
+  module "subnets" {
+    source             = "clouddrove/terraform-aws-subnet/aws"
+    name               = "subnets"
+    environment        = "test"
+    label_order        = ["name", "environment"]
+    availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+    vpc_id             = module.vpc.vpc_id
+    type               = "public"
+    igw_id             = module.vpc.igw_id
+    ipv4_public_cidrs  = ["10.0.1.0/24", "10.0.13.0/24", "10.0.18.0/24"]
+    enable_ipv6        = false
+  }
